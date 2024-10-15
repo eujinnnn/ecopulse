@@ -43,12 +43,15 @@ if ($conn->query($sql) === FALSE) {
     die("Error creating table: " . $conn->error);
 }
 
-// Generate upcoming valid pickup dates (Tuesdays and Thursdays for the next 4 weeks)
-function generateValidPickupDates($daysAllowed = ['Tuesday', 'Thursday'], $numWeeks = 4) {
+// Generate upcoming valid pickup dates (Tuesdays and Thursdays for the next week)
+function generateValidPickupDates($daysAllowed = ['Monday', 'Tuesday', 'Thursday'], $numDays = 7) {
     $validDates = [];
     $currentDate = new DateTime();
-    
-    for ($i = 0; $i < $numWeeks * 7; $i++) {
+
+    // Add one day to current date to avoid including today
+    $currentDate->modify('+1 day');
+
+    for ($i = 0; $i < $numDays; $i++) {
         $dayName = $currentDate->format('l');
         if (in_array($dayName, $daysAllowed)) {
             $validDates[] = $currentDate->format('Y-m-d'); // Store as YYYY-MM-DD
@@ -59,14 +62,14 @@ function generateValidPickupDates($daysAllowed = ['Tuesday', 'Thursday'], $numWe
     return $validDates;
 }
 
-// Generate valid dates (Tuesdays and Thursdays)
+
+// Generate valid dates (Tuesdays and Thursdays) for the next week
 $validPickupDates = generateValidPickupDates();
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Get form inputs
     $address = $_POST['address'];
-    $wasteType = $_POST['wasteType'];
     $pickupDate = $_POST['pickupDate'];
     $pickupTime = $_POST['pickupTime'];
 
@@ -78,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $userId = $_SESSION['id']; // Now it's safe to access
 
     // Basic validation
-    if (empty($address) || empty($wasteType) || empty($pickupDate) || empty($pickupTime)) {
+    if (empty($address) || empty($pickupDate) || empty($pickupTime)) {
         $error = "All fields are required!";
         $_SESSION['error'] = $error; // Store error message in session
     } else {
@@ -93,9 +96,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($user) {
             $email = $user['email']; // Get the email address from the result
 
+            // Handle multiple waste types
+            if (isset($_POST['wasteType'])) {
+                $wasteTypes = $_POST['wasteType'];
+                $wasteTypeString = implode(', ', $wasteTypes); // Convert array to string
+            } else {
+                $wasteTypeString = 'None'; // Default if no type selected
+            }
+            
+
             // Insert data into waste_pickups table
             $stmt = $conn->prepare("INSERT INTO waste_pickups (address, wasteType, pickupDate, pickupTime) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $address, $wasteType, $pickupDate, $pickupTime);
+            $stmt->bind_param("ssss", $address, $wasteTypeString, $pickupDate, $pickupTime);
 
             if ($stmt->execute()) {
                 // Send confirmation email using PHPMailer
@@ -129,19 +141,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <tr>
                             <td style='padding: 8px; border: 1px solid #ddd;'>$pickupDate</td>
                             <td style='padding: 8px; border: 1px solid #ddd;'>$pickupTime</td>
-                            <td style='padding: 8px; border: 1px solid #ddd;'>$wasteType</td>
+                            <td style='padding: 8px; border: 1px solid #ddd;'>$wasteTypeString</td>
                             <td style='padding: 8px; border: 1px solid #ddd;'>$address</td>
                         </tr>
                     </table>
                 ";
-
 
                     // Enable debugging
                     $mail->SMTPDebug = 0;  // Set to 0 to disable debug output
 
                     // Send the email
                     $mail->send();
-                    $_SESSION['confirmationMessage'] = "Your waste pickup is scheduled on $pickupDate at $pickupTime for $wasteType at $address. A confirmation email has been sent.";
+                    $_SESSION['confirmationMessage'] = "Your waste pickup is scheduled on $pickupDate at $pickupTime for $wasteTypeString at $address. A confirmation email has been sent.";
                 } catch (Exception $e) {
                     $error = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                     error_log("Mailer Error: {$mail->ErrorInfo}");  // Log the error
@@ -269,8 +280,7 @@ if (isset($_SESSION['confirmationMessage'])) {
 <?php endif; ?>
 
 
-    <div class="container">
-        <div class="row">
+    
             <!-- Left Column for Recycle Icon and Description 
             <div class="col-md-5">
                 <div class="recycle-info">
@@ -280,45 +290,53 @@ if (isset($_SESSION['confirmationMessage'])) {
             </div>
             -->
 
-            <!-- Right Column for Schedule Pickup Card -->
+
+    <div class="container">
+        <div class="row">
             <div class="">
                 <div class="card">
                     <div class="card-body">
                         <h2 class="card-title text-center">Schedule Waste Pickup</h2>
 
-                        <form id="pickupForm" action="" method="POST">
-                            <!--  Map Selecting Address -->
+                        <form id="pickupForm" action="" method="POST">                        
                             <div id="map"></div>
 
-                           <!-- Address Input  -->
+                            <!-- Address Input  -->
                             <div class="mb-3">
                                 <label for="address" class="form-label"><b>Selected Address:</b></label>
                                 <input type="text" id="address" name="address" class="form-control" placeholder="Select your address from the map" required>
-                                <br>
-                                <small class="alert alert-danger">You can edit the address if needed.</small>
+                                <small class="text-primary">You can edit the address if needed.</small>
                             </div>
-
 
                             <!-- Waste Type Selection -->
                             <div class="mb-3">
-                                <label for="wasteType" class="form-label"><b>Select Waste Type:</b></label>
-                                <select id="wasteType" name="wasteType" class="form-select" required>
-                                    <option value="" disabled selected>Select Waste Type</option>
-                                    <option value="household">Household Waste</option>
-                                    <option value="recyclable">Recyclable Waste</option>
-                                    <option value="hazardous">Hazardous Waste</option>
-                                </select>
+                                <label><b>Select Waste Type:</b></label><br>
+                                <div>
+                                    <input type="checkbox" id="household" name="wasteType[]" value="Household Waste">
+                                    <label for="household">Household Waste</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="recyclable" name="wasteType[]" value="Recyclable Waste">
+                                    <label for="recyclable">Recyclable Waste</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="hazardous" name="wasteType[]" value="Hazardous Waste">
+                                    <label for="hazardous">Hazardous Waste</label>
+                                </div>
+                                <small class="text-primary">You can select multiple waste types.</small>
                             </div>
-
 
                             <!-- Pickup Date Selection -->
                             <div class="mb-3">
                                 <label for="pickupDate" class="form-label"><b>Select Pickup Date:</b></label>
                                 <select id="pickupDate" name="pickupDate" class="form-select" required>
                                     <option value="" disabled selected>Select Pickup Date</option>
-                                    <!-- Replace this with dynamic date options -->
-                                    <option value="2024-10-20">October 20, 2024</option>
-                                    <option value="2024-10-21">October 21, 2024</option>
+                                    <?php
+                                    foreach ($validPickupDates as $date) {
+                                        $formattedDate = date('F j, Y', strtotime($date));
+                                        echo "<option value='$date'>$formattedDate</option>";
+                                    }
+                                    ?>
                                 </select>
                             </div>
 
@@ -342,7 +360,8 @@ if (isset($_SESSION['confirmationMessage'])) {
             </div>
         </div>
     </div>
-
+    
+    <!-- Initialize the map and other scripts -->
     <script>
         // Initialize the map with default view
         const map = L.map('map').setView([40.712776, -74.005974], 13);  // Default to New York
@@ -403,6 +422,25 @@ if (isset($_SESSION['confirmationMessage'])) {
         } else {
             console.error('Geolocation is not supported by this browser.');
         }
+
+        // Function to validate selected waste types
+        function validateWasteType() {
+            const wasteTypes = document.querySelectorAll('input[name="wasteType[]"]:checked');
+            if (wasteTypes.length === 0) {
+                alert("Please select at least one waste type."); // Alert user
+                return false; // Prevent form submission
+            }
+            return true; // Allow form submission
+        }
+
+// Attach the validation to the form submission
+        document.getElementById('pickupForm').addEventListener('submit', function(event) {
+            if (!validateWasteType()) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            }
+        });
+
+
     </script>
 </body>
 </html>
