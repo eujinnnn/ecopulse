@@ -222,8 +222,9 @@ if (isset($_SESSION['confirmationMessage'])) {
     }
     label {
         color: #222222;
-        font-size: 1.25rem;  /* Adjust the font size to make it larger */
+        font-size: 1.45rem;  /* Adjust the font size to make it larger */
         font-weight: ;   /* Optionally make the text bold */
+        
     }
 
 
@@ -294,75 +295,82 @@ if (isset($_SESSION['confirmationMessage'])) {
             -->
 
 
-    <div class="container">
-        <div class="row">
-            <div class="">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="card-title text-center">Schedule Waste Pickup</h2>
+            <div class="container">
+    <div class="row">
+        <div class="">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Schedule Waste Pickup</h2>
 
-                        <form id="pickupForm" action="" method="POST">                        
-                            <div id="map"></div>
+                    <form id="pickupForm" action="" method="POST">                        
+                        <div id="map"></div>
 
-                            <!-- Address Input  -->
-                            <div class="mb-3">
-                                <label for="address" class="form-label"><b>Selected Address:</b></label>
-                                <input type="text" id="address" name="address" class="form-control" placeholder="Select your address from the map" required>
-                                <small class="text-primary">You can edit the address if needed.</small>
+                        <!-- Address Input  -->
+                        <div class="mb-3">
+                            <label for="address" class="form-label"><b>Address:</b></label>
+                            <input type="text" id="address" name="address" class="form-control" placeholder="Select your address from the map" required>
+                            <small class="text-primary">Choose from the map. You can edit the address if needed.</small>
+                        </div>
+
+                        <hr> <!-- Divider Line -->
+
+                        <!-- Waste Type Selection -->
+                        <div class="mb-3">
+                            <label><b>Select Waste Type:</b></label><br>
+                            <div>
+                                <input type="checkbox" id="household" name="wasteType[]" value="Household Waste">
+                                <label for="household">Household Waste</label>
                             </div>
-
-                            <!-- Waste Type Selection -->
-                            <div class="mb-3">
-                                <label><b>Select Waste Type:</b></label><br>
-                                <div>
-                                    <input type="checkbox" id="household" name="wasteType[]" value="Household Waste">
-                                    <label for="household">Household Waste</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="recyclable" name="wasteType[]" value="Recyclable Waste">
-                                    <label for="recyclable">Recyclable Waste</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="hazardous" name="wasteType[]" value="Hazardous Waste">
-                                    <label for="hazardous">Hazardous Waste</label>
-                                </div>
-                                <small class="text-primary">You can select multiple waste types.</small>
+                            <div>
+                                <input type="checkbox" id="recyclable" name="wasteType[]" value="Recyclable Waste">
+                                <label for="recyclable">Recyclable Waste</label>
                             </div>
-
-                            <!-- Pickup Date Selection -->
-                            <div class="mb-3">
-                                <label for="pickupDate" class="form-label"><b>Select Pickup Date:</b></label>
-                                <select id="pickupDate" name="pickupDate" class="form-select" required>
-                                    <option value="" disabled selected>Select Pickup Date</option>
-                                    <?php
-                                    foreach ($validPickupDates as $date) {
-                                        $formattedDate = date('F j, Y', strtotime($date));
-                                        echo "<option value='$date'>$formattedDate</option>";
-                                    }
-                                    ?>
-                                </select>
+                            <div>
+                                <input type="checkbox" id="hazardous" name="wasteType[]" value="Hazardous Waste">
+                                <label for="hazardous">Hazardous Waste</label>
                             </div>
+                            <small class="text-primary">You can select multiple waste types.</small>
+                        </div>
 
-                            <!-- Pickup Time Selection -->
-                            <div class="mb-3">
-                                <label for="pickupTime" class="form-label"><b>Select Pickup Time:</b></label>
-                                <select id="pickupTime" name="pickupTime" class="form-select" required>
-                                    <option value="" disabled selected>Select Pickup Time</option>
-                                    <option value="9:00 AM">9:00 AM</option>
-                                    <option value="10:00 AM">10:00 AM</option>
-                                    <option value="11:00 AM">11:00 AM</option>
-                                    <option value="1:00 PM">1:00 PM</option>
-                                    <option value="2:00 PM">2:00 PM</option>
-                                </select>
-                            </div>
+                        <hr> <!-- Divider Line -->
 
-                            <button type="submit" class="btn btn-custom">Schedule Pickup</button>
-                        </form>
-                    </div>
+                        <!-- Pickup Date Selection -->
+                        <div class="mb-3">
+                            <label for="pickupDate" class="form-label"><b>Pickup Date:</b></label>
+                            <select id="pickupDate" name="pickupDate" class="form-select" required>
+                                <option value="" disabled selected>Select Pickup Date</option>
+                                <?php
+                                foreach ($validPickupDates as $date) {
+                                    $formattedDate = date('F j, Y', strtotime($date));
+                                    echo "<option value='$date'>$formattedDate</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <hr> <!-- Divider Line -->
+
+                        <!-- Pickup Time Selection -->
+                        <div class="mb-3">
+                            <label for="pickupTime" class="form-label"><b>Pickup Time:</b></label>
+                            <select id="pickupTime" name="pickupTime" class="form-select" required>
+                                <option value="" disabled selected>Select Pickup Time</option>
+                                <option value="9:00 AM">9:00 AM</option>
+                                <option value="10:00 AM">10:00 AM</option>
+                                <option value="11:00 AM">11:00 AM</option>
+                                <option value="1:00 PM">1:00 PM</option>
+                                <option value="2:00 PM">2:00 PM</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-custom">Schedule Pickup</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
     
     <!-- Initialize the map and other scripts -->
     <script>
