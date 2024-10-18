@@ -1,0 +1,49 @@
+<div class="history">
+    <div class="container">
+        <h1>Pickup History</h1>
+        <h1>Pickup History</h1>
+        <h3>Keep track of your waste disposal activities.</h3>
+    </div>
+
+    <div class="pickup-history">
+        <div class="filters">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" [(ngModel)]="startDate" (change)="filterHistory()">
+
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate" [(ngModel)]="endDate" (change)="filterHistory()">
+
+            <label for="wasteType">Waste Type:</label>
+            <select id="wasteType" [(ngModel)]="selectedWasteType" (change)="filterHistory()">
+                <option value="">All</option>
+                <option *ngFor="let type of wasteTypes" [value]="type">{{ type }}</option>
+            </select>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr class="title">
+                        <th>Date</th>
+                        <th>Type of Waste</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pickup of filteredPickups">
+                        <td>{{ pickup.date | date:'shortDate' }} {{ pickup.time }}</td>
+                        <td>{{ pickup.type }}</td>
+                        <td>{{ pickup.details }}</td>
+                    </tr>
+                    <tr *ngIf="filteredPickups.length === 0">
+                        <td colspan="3">No pickups recorded.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div *ngIf="filteredPickups.length > 0" class="chart-container">
+            <canvas id="pickupChart"></canvas>
+        </div>
+    </div>
+</div>

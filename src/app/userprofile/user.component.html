@@ -1,0 +1,26 @@
+<div class="profile">
+    <div class="container">
+        <h1>Welcome back, {{name}}!</h1>
+        <h1>Welcome back, {{name}}!</h1>
+    </div>
+
+    <div class="profile-details-background"></div>
+    <div class="profile-details">
+        <h3>Profile Management</h3>
+
+        <div class="info">
+            <h4><strong>Name:</strong> {{name}}</h4>
+            <h4><strong>Email:</strong> {{email}}</h4>
+            <h4><strong>Contact Number:</strong> {{contact}}</h4>
+            <h4><strong>Community:</strong> {{community}}</h4>
+            <h4><strong>Address:</strong> {{address}}</h4>
+        </div>
+
+        <button class="edit-btn" (click)="navigateToEditProfile()">Edit Profile</button>
+    </div>
+
+    <div class="button-section">
+        <button class="secondary-btn" (click)="navigateToHistory()">View History</button>
+        <button class="secondary-btn" (click)="navigateToNotification()">Manage Notifications</button>
+    </div>
+</div>

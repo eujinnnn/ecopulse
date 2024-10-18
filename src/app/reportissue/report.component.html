@@ -1,0 +1,59 @@
+<div class="report">
+    <div class="background-shape shape1">
+        <svg width="700" height="700" viewBox="0 0 200 200">
+            <path d="M100,10 C140,20 180,70 150,130 C120,190 60,180 30,130 C10,80 40,30 100,10 Z" fill="#27AE60"/>
+        </svg>
+    </div>
+    <div class="background-shape shape2">
+        <svg width="600" height="600" viewBox="0 0 200 200">
+            <path d="M120,15 C150,30 190,80 160,140 C130,200 70,190 40,140 C20,90 50,40 120,15 Z" fill="#2ECC71"/>
+        </svg>        
+    </div>
+    <div class="background-shape shape3">
+        <svg width="500" height="500" viewBox="0 0 200 200">
+            <path d="M80,20 C120,25 160,60 130,120 C100,180 50,170 20,120 C0,70 30,40 80,20 Z" fill="#1E8449"/>
+        </svg>        
+    </div>
+    <div class="background-shape shape4">
+        <svg width="400" height="400" viewBox="0 0 200 200">
+            <path d="M90,25 C130,40 170,100 140,160 C110,220 50,210 20,160 C0,100 40,50 90,25 Z" fill="#239B56"/>
+        </svg> 
+    </div>
+    <div class="background-shape shape5">
+        <svg width="300" height="300" viewBox="0 0 200 200">
+            <path d="M110,5 C150,35 170,85 140,150 C110,200 70,190 30,140 C10,80 60,20 110,5 Z" fill="#28B463"/>
+        </svg> 
+    </div>
+
+    <div class="container">
+        <h1>Report Issue</h1>
+        <h1>Report Issue</h1>
+        <h3>Please provide details about the issue you're reporting.</h3>
+    </div>
+
+    <div class="report-form">
+        <form (ngSubmit)="onSubmit()">
+            <p>Select issue type</p>
+            <select name="issue" class="issuepicker" [(ngModel)]="selectedIssue" (change)="onIssueChange($event)" required>
+                <option value="" disabled>Select an issue</option>
+                <option *ngFor="let issue of issueOptions" [value]="issue">
+                    {{ issue }}
+                </option>
+            </select>
+
+            <p>Issue location</p>
+            <input type="text" class="issuelocation" [(ngModel)]="issueLocation" (input)="onLocationChange($event)" placeholder="Enter issue location" required>
+
+            <p>Description</p>
+            <input type="text" class="issuedescription" [(ngModel)]="issueDescription" (input)="onDescriptionChange($event)" placeholder="Enter issue description" required>
+
+            <p>Additional comments (optional)</p>
+            <input type="text" class="additional" [(ngModel)]="additionalComments" (input)="onCommentsChange($event)" placeholder="Optional comments">
+
+            <p>Upload image (optional)</p>
+            <input type="file" class="issueimage" (change)="onImageUpload($event)">
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>

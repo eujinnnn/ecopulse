@@ -1,0 +1,128 @@
+.schedule {
+    width: 80%;
+    height: 73vh;
+}
+
+.background-shape {
+    position: absolute;
+    z-index: -1;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate2 {
+    0% {
+        transform: rotate(360deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.shape1 {
+    width: 750px;
+    height: 750px;
+    top: 8%; 
+    left: 25%;
+    animation: rotate 10s linear infinite;
+}
+
+.shape2 {
+    width: 700px;
+    height: 700px;
+    top: 10%; 
+    left: 20%; 
+    animation: rotate2 8s linear infinite;
+}
+
+.shape3 {
+    width: 600px;
+    height: 600px;
+    top: 10%; 
+    left: 30%; 
+    animation: rotate 6s linear infinite;
+}
+
+.container {
+    width: 50%;
+    margin: 50px;
+}
+
+.container h1 {
+    position: absolute;
+    font-size: 42px;
+    color: whitesmoke;
+    transform: translate(0, -135%);
+}
+
+.container h1:nth-child(1) {
+    color: transparent;
+    -webkit-text-stroke: 1px #2ECC71;
+}
+
+.container h1:nth-child(2) {
+    color: #2ECC71;
+    animation: animate 2s ease-in-out infinite;
+}
+
+.container h3 {
+    color: #080a0c;
+}
+
+.schedule-form {
+    width: 80%;
+    height: 80%;
+    margin-left: 230px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.datepicker, .timepicker, .wastepicker {
+    width: 50%;
+    height: 30px;
+}
+
+.recyclable-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-left: 330px;
+}
+
+.recyclable-options label {
+    display: flex;
+    align-items: center;
+}
+
+button {
+    background-color: whitesmoke;
+    width: 150px;
+    height: 50px;
+    border-radius: 30px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    margin: 30px;
+    font-size: 12px;
+    color: #080a0c;
+    cursor: pointer;
+}
+
+button:hover {
+    color: #415c77;
+}
+
+@keyframes animate {
+    0%, 100% {
+        clip-path: polygon(0% 45%, 15% 44%, 32% 50%, 54% 60%, 70% 61%, 84% 59%, 100% 52%, 100% 100%, 0% 100%);
+    }
+    50% {
+        clip-path: polygon(0% 60%, 16% 65%, 34% 66%, 51% 62%, 67% 50%, 84% 45%, 100% 46%, 100% 100%, 0% 100%);
+    }
+}

@@ -1,0 +1,115 @@
+.profile {
+    width: 100%;
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.container {
+    margin-left: 230px;
+    margin-top: -30px;
+    width: 50%;
+}
+
+.container h1 {
+    position: absolute;
+    font-size: 42px;
+    color: whitesmoke;
+}
+
+.container h1:nth-child(1) {
+    color: transparent;
+    -webkit-text-stroke: 1px #2ECC71;
+}
+
+.container h1:nth-child(2) {
+    color: #2ECC71;
+    animation: animate 2s ease-in-out infinite;
+}
+
+@keyframes animate {
+    0%,100% {
+        clip-path: polygon(0% 45%, 15% 44%, 32% 50%, 54% 60%, 70% 61%, 84% 59%, 100% 52%, 100% 100%, 0% 100%);
+    }
+    50% {
+        clip-path: polygon(0% 60%, 16% 65%, 34% 66%, 51% 62%, 67% 50%, 84% 45%, 100% 46%, 100% 100%, 0% 100%);
+    }
+}
+
+.profile-details-background {
+    background-color: #AECCE4;
+    position: absolute;
+    width: 50%;
+    height: 45vh;
+    z-index: 0;
+    border-radius: 20px;
+    top: 29%;
+    animation: animate 4s ease-in-out infinite;
+}
+
+.profile-details {
+    border-radius: 15px;
+    padding: 20px;
+    width: 50%;
+    height: 45vh;
+    z-index: 2;
+    margin-top: 50px;
+    text-align: center;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.profile-details h3 {
+    color: #2ecc71;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.info h4 {
+    color: #080a0c;
+    margin: 10px 0;
+    z-index: 2;
+}
+
+.edit-btn {
+    background-color: whitesmoke;
+    width: 150px;
+    height: 50px;
+    border-radius: 30px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    margin: 30px;
+    font-size: 12px;
+    color: #080a0c;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.edit-btn:hover {
+    color: #415c77;
+}
+
+
+.button-section {
+    display: flex;
+    margin-top: -100px;
+    gap: 30px;
+}
+
+.secondary-btn {
+    background-color: whitesmoke;
+    width: 150px;
+    height: 50px;
+    border-radius: 30px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    margin: 30px;
+    margin-top: 60px;
+    font-size: 12px;
+    color: #080a0c;
+    cursor: pointer;
+}
+
+.secondary-btn:hover {
+    color: #415c77;
+}

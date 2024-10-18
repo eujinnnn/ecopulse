@@ -1,0 +1,34 @@
+<div class="form-container">
+    <div class="form" [ngStyle]="{'opacity': isSignUpVisible ? 0 : 1, 'pointer-events': isSignUpVisible ? 'none' : 'auto'}">
+        <div class="message" [ngClass]="{'slide-out': isSignUpVisible}">
+            <img src="/images/eco_background.png" alt="form-background">
+            <h1>Welcome Back!</h1>
+            <p>Log in to continue your journey toward a cleaner and more sustainable environment.</p>
+            <button (click)="toggleLog()">Sign Up</button>
+        </div>
+
+        <form class="login-form" (ngSubmit)="login()">
+            <h1>Log In</h1>
+            <input type="text" placeholder="Username" [(ngModel)]="loginUsername" name="username" required>
+            <input type="password" placeholder="Password" [(ngModel)]="loginPassword" name="password" required>
+            <button type="submit">Log In</button>
+        </form>
+    </div>
+
+    <div class="form-2" [ngStyle]="{'opacity': isSignUpVisible ? 1 : 0, 'pointer-events': isSignUpVisible ? 'auto' : 'none'}">
+        <form class="login-form" (ngSubmit)="signup()">
+            <h1>Sign Up</h1>
+            <input type="text" placeholder="Email" [(ngModel)]="signupEmail" name="email" required>
+            <input type="text" placeholder="Username" [(ngModel)]="signupUsername" name="username" required>
+            <input type="password" placeholder="Password" [(ngModel)]="signupPassword" name="password" required>
+            <button type="submit">Sign Up</button>
+        </form>
+
+        <div class="message" [ngClass]="{'slide-in': isSignUpVisible}">
+            <img src="/images/landfill.jpg" alt="form-background">
+            <h1>Sign Up Now!</h1>
+            <p>Create your EcoPulse account to start making a difference! Join us in building a sustainable future by managing waste responsibly.</p>
+            <button (click)="toggleSign()">Log In</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+<div class="notification-container">
+    <div class="container">
+        <h1>Notifications</h1>
+        <h1>Notifications</h1>
+        <h3>Stay updated with your upcoming waste pickups and community announcements.</h3>
+    </div>
+
+    <div class="notification-list">
+        <div *ngFor="let notification of notifications" class="notification-card">
+            <div class="notification-date">{{ notification.date | date:'short' }}</div>
+            <div class="notification-title">{{ notification.title }}</div>
+            <div class="notification-details">{{ notification.details }}</div>
+        </div>
+    </div>
+</div>
