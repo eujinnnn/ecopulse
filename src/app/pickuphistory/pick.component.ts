@@ -1,92 +1,66 @@
 import { Component, OnInit } from '@angular/core';
-import { Chart } from 'chart.js';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 
 interface Pickup {
     date: string;
+    day: string;
     time: string;
-    type: string; 
+    type: string;
     details: string;
 }
 
 @Component({
-  selector: 'app-pick',
-  templateUrl: './pick.component.html',
-  styleUrls: ['./pick.component.css']
+    selector: 'app-pick',
+    templateUrl: './pick.component.html',
+    styleUrls: ['./pick.component.css']
 })
 export class PickComponent implements OnInit {
-    pickups: Pickup[] = [
-        { date: '2024-10-10', time: '08:00 AM', type: 'Household', details: '-' },
-        { date: '2024-10-15', time: '09:30 AM', type: 'Recyclable', details: 'Plastic.' },
-        { date: '2024-10-8', time: '11:15 AM', type: 'Recyclable', details: 'Paper.' },
-        { date: '2024-10-2', time: '01:00 PM', type: 'Recyclable', details: 'Aluminium.' },
-        { date: '2024-10-11', time: '10:45 AM', type: 'Hazardous', details: '-' },
-    ];
-    
+    pickups: Pickup[] = [];
     filteredPickups: Pickup[] = [];
-    wasteTypes: string[] = ['Household', 'Recyclable', 'Hazardous'];
+    wasteTypes: string[] = ['household waste', 'recyclable waste', 'hazardous waste'];
     startDate: string = '';
     endDate: string = '';
     selectedWasteType: string = '';
+    userId: string = ''; 
+
+    constructor(private http: HttpClient, private route: ActivatedRoute) {}
 
     ngOnInit() {
-        this.filteredPickups = this.pickups;
-        this.createChart();
+        // Retrieve the user ID from URL params
+        this.route.paramMap.subscribe(params => {
+            this.userId = params.get('id') || ''; 
+            console.log('User ID:', this.userId); 
+            this.getPickups();  // Ensure data is fetched after userId is available
+        });
     }
 
+    // Fetch pickup data from the backend, including userId as a query parameter
+    getPickups() {
+        const apiUrl = `http://localhost/ecopulse/get_pickups.php?userId=${this.userId}`;
+
+        this.http.get<Pickup[]>(apiUrl).subscribe(
+            (data: Pickup[]) => {
+                this.pickups = data;
+                this.filteredPickups = data; // Initialize with all data
+            },
+            (error) => {
+                console.error('Failed to load pickups:', error);
+            }
+        );
+    }
+
+    // Filter the table based on the selected filters
     filterHistory() {
+        const start = this.startDate ? new Date(this.startDate).getTime() : 0;
+        const end = this.endDate ? new Date(this.endDate).getTime() : new Date().getTime();
+
         this.filteredPickups = this.pickups.filter(pickup => {
-            const date = new Date(pickup.date);
-            const start = this.startDate ? new Date(this.startDate) : new Date(0);
-            const end = this.endDate ? new Date(this.endDate) : new Date();
-            const matchesDate = date >= start && date <= end;
+            const pickupDate = new Date(pickup.date).getTime();
+            const matchesDate = pickupDate >= start && pickupDate <= end;
             const matchesType = this.selectedWasteType ? pickup.type === this.selectedWasteType : true;
 
             return matchesDate && matchesType;
         });
-
-        this.updateChart();
-    }
-
-    createChart() {
-        const ctx = document.getElementById('pickupChart') as HTMLCanvasElement;
-        const data = this.getChartData();
-
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: data.labels,
-                datasets: [{
-                    label: 'Pickups by Type',
-                    data: data.values,
-                    backgroundColor: '#2ecc71',
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    }
-
-    updateChart() {
-        const ctx = document.getElementById('pickupChart') as HTMLCanvasElement;
-        const data = this.getChartData();
-
-        const chartInstance = Chart.getChart(ctx);
-        if (chartInstance) {
-            chartInstance.data.labels = data.labels;
-            chartInstance.data.datasets[0].data = data.values;
-            chartInstance.update();
-        }
-    }
-
-    private getChartData() {
-        const labels = this.wasteTypes;
-        const values = labels.map(type => this.filteredPickups.filter(pickup => pickup.type === type).length);
-        return { labels, values };
     }
 }

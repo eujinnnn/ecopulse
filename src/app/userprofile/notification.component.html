@@ -6,10 +6,14 @@
     </div>
 
     <div class="notification-list">
-        <div *ngFor="let notification of notifications" class="notification-card">
-            <div class="notification-date">{{ notification.date | date:'short' }}</div>
-            <div class="notification-title">{{ notification.title }}</div>
-            <div class="notification-details">{{ notification.details }}</div>
+        <div *ngIf="notifications && notifications.length > 0">
+            <div *ngFor="let notification of notifications" class="notification-card">
+                <div class="notification-date">{{ notification.date | date:'short' }}</div>
+                <div class="notification-message">{{ notification.message }}</div>
+            </div>
         </div>
+        <div *ngIf="!notifications || notifications.length === 0">
+            <p>No notifications available.</p>
+        </div>        
     </div>
 </div>

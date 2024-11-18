@@ -1,11 +1,14 @@
 .generate {
-    height: 73vh;
     width: 100%;
+    height: 125vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .container {
     width: 50%;
     margin: 50px;
+    position: relative;
 }
 
 .container h1 {
@@ -25,8 +28,13 @@
     animation: animate 2s ease-in-out infinite;
 }
 
+.container h3 {
+    color: #080a0c;
+    margin-top: 10px; /* Adjust margin for spacing */
+}
+
 @keyframes animate {
-    0%,100% {
+    0%, 100% {
         clip-path: polygon(0% 45%, 15% 44%, 32% 50%, 54% 60%, 70% 61%, 84% 59%, 100% 52%, 100% 100%, 0% 100%);
     }
     50% {
@@ -34,14 +42,89 @@
     }
 }
 
-canvas {
-    margin-top: 20px;
-    margin-left: 150px;
-    max-width: 60%;
-    height: auto;
-}
-
 .generate-report {
     text-align: center;
+    display: flex;
+    flex-direction: column;
     margin-top: 30px;
 }
+
+.generate-report input,
+.generate-report select {
+    width: 80%;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.generate-report button {
+    background-color: whitesmoke;
+    width: 150px;
+    height: 50px;
+    border-radius: 30px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    margin: 30px;
+    font-size: 12px;
+    color: #080a0c;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.generate-report button:hover {
+    color: #415c77;
+}
+
+canvas {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    height: 400px;
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+    .container {
+        width: 90%; /* Make container width larger to fit mobile */
+        margin-top: 50px; /* Adjust margins for centering on mobile */
+        margin-left: 10px;
+    }
+
+    .container h1 {
+        font-size: 36px; /* Reduce font size on mobile */
+        transform: translate(0, -120%);
+    }
+
+    .container h1:nth-child(1) {
+        -webkit-text-stroke: 1px #2ECC71; /* Keep the stroke the same */
+    }
+
+    .container h1:nth-child(2) {
+        animation: animate 1.5s ease-in-out infinite; /* Faster animation */
+    }
+
+    .container h3 {
+        font-size: 16px; /* Adjust subheading size */
+        margin-top: 5px; /* Reduce spacing */
+    }
+
+    .generate-report {
+        margin-top: 20px; /* Reduce top margin for compact view */
+    }
+
+    .generate-report input,
+    .generate-report select {
+        width: 95%; /* Stretch form inputs to almost full width */
+    }
+
+    .generate-report button {
+        width: 120px; /* Smaller button for mobile */
+        height: 40px;
+        font-size: 10px;
+    }
+
+    canvas {
+        height: 300px; /* Reduce canvas height for mobile */
+    }
+}
+

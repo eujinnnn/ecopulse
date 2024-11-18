@@ -6,6 +6,7 @@
     </div>
 
     <div class="pickup-history">
+        <!-- Filters Section -->
         <div class="filters">
             <label for="startDate">Start Date:</label>
             <input type="date" id="startDate" [(ngModel)]="startDate" (change)="filterHistory()">
@@ -20,11 +21,13 @@
             </select>
         </div>
 
+        <!-- Table Section -->
         <div class="table-container">
             <table>
                 <thead>
                     <tr class="title">
                         <th>Date</th>
+                        <th>Day</th>
                         <th>Type of Waste</th>
                         <th>Details</th>
                     </tr>
@@ -32,18 +35,15 @@
                 <tbody>
                     <tr *ngFor="let pickup of filteredPickups">
                         <td>{{ pickup.date | date:'shortDate' }} {{ pickup.time }}</td>
+                        <td>{{ pickup.day }}</td>
                         <td>{{ pickup.type }}</td>
                         <td>{{ pickup.details }}</td>
                     </tr>
                     <tr *ngIf="filteredPickups.length === 0">
-                        <td colspan="3">No pickups recorded.</td>
+                        <td colspan="4">No pickups recorded.</td>
                     </tr>
                 </tbody>
             </table>
-        </div>
-
-        <div *ngIf="filteredPickups.length > 0" class="chart-container">
-            <canvas id="pickupChart"></canvas>
         </div>
     </div>
 </div>

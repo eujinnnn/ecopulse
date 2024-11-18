@@ -1,0 +1,124 @@
+.admin-container {
+  padding: 20px;
+}
+
+.container {
+  width: 50%;
+  margin: 50px;
+  margin-bottom: 100px;
+  position: relative;
+}
+
+.container h1 {
+  position: absolute;
+  font-size: 42px;
+  color: whitesmoke;
+  transform: translate(0, -135%);
+}
+
+.container h1:nth-child(1) {
+  color: transparent;
+  -webkit-text-stroke: 1px #2ECC71;
+}
+
+.container h1:nth-child(2) {
+  color: #2ECC71;
+  animation: animate 2s ease-in-out infinite;
+}
+
+.container h3 {
+  color: #080a0c;
+  margin-top: 10px; /* Adjust margin for spacing */
+}
+
+@keyframes animate {
+  0%, 100% {
+      clip-path: polygon(0% 45%, 15% 44%, 32% 50%, 54% 60%, 70% 61%, 84% 59%, 100% 52%, 100% 100%, 0% 100%);
+  }
+  50% {
+      clip-path: polygon(0% 60%, 16% 65%, 34% 66%, 51% 62%, 67% 50%, 84% 45%, 100% 46%, 100% 100%, 0% 100%);
+  }
+}
+
+.admin {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  text-align: center;
+}
+
+section {
+  margin-bottom: 20px;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+select {
+  width: 102%;
+}
+
+button {
+  background-color: whitesmoke;
+  width: 150px;
+  height: 50px;
+  border-radius: 30px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+  margin: 30px;
+  font-size: 12px;
+  color: #080a0c;
+  cursor: pointer;
+  z-index: 2;
+}
+
+button:hover {
+  color: #415c77;
+}
+
+.community-list {
+  margin-top: 20px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 70%;
+  max-height: 80%;
+  margin: auto;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+}
+
+.show-modal {
+  display: flex;
+}
+
+.close-button {
+  position: absolute;
+  top: 80px;
+  right: 230px;
+  font-size: 24px;
+  cursor: pointer;
+}

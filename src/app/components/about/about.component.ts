@@ -78,14 +78,14 @@ export class AboutComponent implements OnInit {
   }
 
   navigateToSchedule() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/schedule']);
   }
 
-  navigateToLearn() {
-    this.router.navigate(['/']);
+  navigateToIssue() {
+    this.router.navigate(['/report']);
   }
 
-  navigateToContact() {
-    this.router.navigate(['/']);
+  navigateToGenerate() {
+    this.router.navigate(['/generate']);
   }
 }

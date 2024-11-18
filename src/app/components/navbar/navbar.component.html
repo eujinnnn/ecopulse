@@ -1,12 +1,14 @@
 <div class="navbar">
     <h1>Eco</h1>
     <h1 class="pulse">Pulse</h1>
-    
+
     <nav>
         <ul>
             <li><a href="/">Home</a></li>
-            <li><a href="/schedule">Schedule Pickup</a></li>
-            <li><a href="/user">View History</a></li>
+            <!-- Show Schedule Pickup if logged in -->
+            <li *ngIf="getCurrentUser()"><a [routerLink]="['/schedule', getCurrentUser()?.id]">Schedule Pickup</a></li>
+            <!-- Show View History if logged in -->
+            <li *ngIf="getCurrentUser()"><a [routerLink]="['/user', getCurrentUser()?.id]">View History</a></li>
         </ul>
     </nav>
 
@@ -14,15 +16,24 @@
         <div class="bar1"></div>
         <div class="bar2"></div>
         <div class="bar3"></div>
- 
+
         <div class="dropdown-content" *ngIf="isDropdownVisible">
             <nav>
                 <ul>
-                    <li><a href="/user">Profile</a></li>
-                    <li><a href="/report">Report Issue</a></li>
-                    <li><a href="/admin">Admin Dashboard</a></li>
-                    <li><a href="/sign">Log In</a></li>
-                    <li><a href="/">Log Out</a></li>
+                    <!-- Show Profile link if logged in -->
+                    <li *ngIf="getCurrentUser()"><a [routerLink]="['/user', getCurrentUser()?.id]">Profile</a></li>
+                    <!-- Show Report Issue if logged in -->
+                    <li *ngIf="getCurrentUser()"><a [routerLink]="['/report', getCurrentUser()?.id]">Report Issue</a></li>
+                    <!-- Show Generate Report if logged in -->
+                    <li *ngIf="getCurrentUser()"><a [routerLink]="['/generate', getCurrentUser()?.id]">Generate Report</a></li>
+                    <!-- Show Admin Dashboard if user is an admin -->
+                    <li *ngIf="getCurrentUser()?.role === 'default' || getCurrentUser()?.role === 'admin'">
+                        <a [routerLink]="['/admin', getCurrentUser()?.community]">Admin Dashboard</a>
+                    </li>                      
+                    <!-- Show Log In if not logged in -->
+                    <li *ngIf="!getCurrentUser()"><a routerLink="/sign">Log In</a></li>
+                    <!-- Show Log Out if logged in -->
+                    <li *ngIf="getCurrentUser()"><a (click)="logout()">Log Out</a></li>
                 </ul>
             </nav>
         </div>

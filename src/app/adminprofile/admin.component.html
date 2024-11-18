@@ -1,0 +1,78 @@
+<!-- Admin Dashboard Template -->
+<div class="admin-container">
+  <div class="container">
+    <h1>Admin Dashboard</h1>
+    <h1>Admin Dashboard</h1>
+  </div>
+
+  <div class="admin">
+    <p>Communities</p>
+    <button (click)="showCommunityModal()">View Communities</button>
+
+    <!-- Modal for Community Details -->
+    <div class="modal" [ngClass]="{'show-modal': isModalVisible}">
+      <div class="modal-content">
+        <span class="close-button" (click)="closeCommunityModal()">&times;</span>
+
+        <section class="community-list">
+          <h5>Communities</h5>
+          <ul *ngIf="communities && communities.length > 0; else noCommunities">
+            <li *ngFor="let community of communities">
+              <br/><strong>{{ community.name }}</strong>
+              <br>Pickup Schedules:
+              <ul>
+                <li *ngFor="let schedule of community.pickupSchedule">
+                  <strong>Day:</strong> {{ schedule.days.join(', ') }}
+                  <br><strong>Time(s):</strong> {{ schedule.times.join(', ') }}
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <ng-template #noCommunities>No communities found.</ng-template>                  
+        </section>        
+      </div>
+    </div>
+
+    <!-- Add Community Form Section -->
+    <section class="community-section">
+      <p>Add Community</p>
+      <input
+        type="text"
+        [(ngModel)]="communityName"
+        placeholder="Enter community name"
+        required
+      />
+
+      <p>Select Pickup Days</p>
+      <div *ngFor="let day of availableDays">
+        <input
+          type="checkbox"
+          [id]="day.name"
+          [(ngModel)]="day.selected"
+          (change)="onDayChange(day)"
+        />
+        <label [for]="day.name">{{ day.name }}</label>
+      </div>
+
+      <p>Select Pickup Times</p>
+      <div *ngFor="let time of availableTimes">
+        <input
+          type="checkbox"
+          [id]="time"
+          (change)="onTimeChange(time)"
+          [checked]="selectedTimes.has(time)"
+        />
+        <label [for]="time">{{ time }}</label>
+      </div>
+
+      <button (click)="addCommunity()">Add Community</button>
+    </section>
+
+    <!-- Broadcast Notification Section -->
+    <section class="notification-section">
+      <p>Broadcast Notification</p>
+      <input type="text" [(ngModel)]="notification" placeholder="Enter notification message" />
+      <button (click)="broadcastNotification()">Send Notification</button>
+    </section>
+  </div>
+</div>

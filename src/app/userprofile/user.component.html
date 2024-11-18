@@ -8,7 +8,16 @@
     <div class="profile-details">
         <h3>Profile Management</h3>
 
-        <div class="info">
+        <!-- Loading state -->
+        <div *ngIf="loading">Loading your profile...</div>
+
+        <!-- Error message -->
+        <div *ngIf="errorMessage" class="error-message">
+            {{errorMessage}}
+        </div>
+
+        <!-- User info -->
+        <div *ngIf="!loading && !errorMessage" class="info">
             <h4><strong>Name:</strong> {{name}}</h4>
             <h4><strong>Email:</strong> {{email}}</h4>
             <h4><strong>Contact Number:</strong> {{contact}}</h4>

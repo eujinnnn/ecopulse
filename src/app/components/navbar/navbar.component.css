@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: row;
     overflow: hidden;
+    padding: 10px 35px;
 }
 
 h1 {
@@ -30,13 +31,15 @@ li a {
 
 li a:hover {
     color: #415c77;
+    cursor: pointer;
 }
 
 .dropdown-navbar {
     display: flex;
     flex-direction: column;
     margin-top: 33px;
-    margin-left: 645px;
+    margin-left: auto;
+    margin-right: 40px;
     cursor: pointer;
 }
 
@@ -65,13 +68,14 @@ li a:hover {
     display: block;
     flex-direction: column;
     position: absolute;
-    width: 130px;
+    width: 180px;
     height: auto;
     align-items: center;
     text-align: center;
     opacity: 0;
-    left: 89.8%;
-    top: 5%;
+    right: 8px;
+    top: 50px;
+    z-index: 2;
 }
 
 .dropdown-content ul {

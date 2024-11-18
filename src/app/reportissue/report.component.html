@@ -42,13 +42,13 @@
             </select>
 
             <p>Issue location</p>
-            <input type="text" class="issuelocation" [(ngModel)]="issueLocation" (input)="onLocationChange($event)" placeholder="Enter issue location" required>
+            <input type="text" class="issuelocation" [(ngModel)]="issueLocation" (input)="onLocationChange($event)" placeholder="Enter issue location" name="issueLocation" required>
 
             <p>Description</p>
-            <input type="text" class="issuedescription" [(ngModel)]="issueDescription" (input)="onDescriptionChange($event)" placeholder="Enter issue description" required>
+            <input type="text" class="issuedescription" [(ngModel)]="issueDescription" (input)="onDescriptionChange($event)" placeholder="Enter issue description" name="issueDescription" required>
 
             <p>Additional comments (optional)</p>
-            <input type="text" class="additional" [(ngModel)]="additionalComments" (input)="onCommentsChange($event)" placeholder="Optional comments">
+            <input type="text" class="additional" [(ngModel)]="additionalComments" (input)="onCommentsChange($event)" placeholder="Optional comments" name="comments">
 
             <p>Upload image (optional)</p>
             <input type="file" class="issueimage" (change)="onImageUpload($event)">

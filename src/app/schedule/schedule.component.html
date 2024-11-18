@@ -18,23 +18,45 @@
     <div class="container">
         <h1>Schedule Your Waste Pickup</h1>
         <h1>Schedule Your Waste Pickup</h1>
-        <h3>Select a date, time, and waste type for your pickup.</h3>
+        <h3>Select a pickup day, time, and waste type for your pickup.</h3>
     </div>
 
     <div class="schedule-form">
-        <form>
-            <p>Select a preferred date</p>
-            <input type="date" class="datepicker">
+        <form (ngSubmit)="schedulePickup(selectedDay, selectedTime, selectedWaste, selectedRecyclables, userId, userCommunity)">
+            <p>Select a preferred pickup day (nearest coming day)</p>
+            <select
+                name="pickupDay"
+                class="datepicker"
+                [(ngModel)]="selectedDay"
+                (change)="onDayChange($event)"
+                required
+            >
+                <option *ngFor="let day of dayOptions" [value]="day">
+                    {{ day }}
+                </option>
+            </select>
 
             <p>Select time range for pickup</p>
-            <select name="time" class="timepicker" [(ngModel)]="selectedTime" (change)="onTimeChange($event)">
+            <select
+                name="time"
+                class="timepicker"
+                [(ngModel)]="selectedTime"
+                (change)="onTimeChange($event)"
+                required
+            >
                 <option *ngFor="let time of timeOptions" [value]="time">
-                  {{ time }}
+                    {{ time }}
                 </option>
             </select>
 
             <p>Select waste type</p>
-            <select name="waste" class="wastepicker" [(ngModel)]="selectedWaste" (change)="onWasteChange($event)">
+            <select
+                name="waste"
+                class="wastepicker"
+                [(ngModel)]="selectedWaste"
+                (change)="onWasteChange($event)"
+                required
+            >
                 <option *ngFor="let waste of wasteOptions" [value]="waste">
                     {{ waste }}
                 </option>
@@ -48,7 +70,7 @@
                             <input
                                 type="checkbox"
                                 [value]="recyclable"
-                                (change)="onRecyclableChange(recyclable, $event)"
+                                (change)="onRecyclableChange($event)"
                             />
                             {{ recyclable }}
                         </label>
@@ -58,10 +80,10 @@
 
             <div class="address">
                 <p>Address:</p>
-                <p>Jalan 14/4, Seksyen 14, 46100 Petaling Jaya, Selangor, Malaysia</p>
+                <p>{{ address }}</p> 
             </div>
 
-            <button (click)="schedulePickup()">Schedule</button>
+            <button type="submit">Schedule</button>
         </form>       
     </div>
 </div>

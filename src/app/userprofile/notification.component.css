@@ -4,6 +4,7 @@
     margin: auto;
     padding: 20px;
     border-radius: 10px;
+    z-index: -999999;
 }
 
 .container {
@@ -62,18 +63,7 @@
 
 .notification-date {
     font-size: 14px;
-    color: #7D7D7D;
-}
-
-.notification-title {
-    font-size: 18px;
     color: #2ECC71;
-    margin: 5px 0;
-}
-
-.notification-details {
-    font-size: 14px;
-    color: #333;
 }
 
 .notification-actions {

@@ -2,6 +2,7 @@
     <div class="container">
         <h1>Generate Report</h1>
         <h1>Generate Report</h1>
+        <h3>Please provide details to generate your waste management report.</h3>
     </div>
 
     <div class="generate-report">
@@ -15,17 +16,21 @@
             </select>
 
             <div class="date-range">
-                <label for="startDate">Start Date:</label>
+                <p>Start Date:</p>
                 <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" required>
 
-                <label for="endDate">End Date:</label>
+                <p>End Date:</p>
                 <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" required>
             </div>
 
             <button type="submit" class="generate-button">Generate Report</button>
         </form>
-        <p *ngIf="reportMessage">{{ reportMessage }}</p>
         
+        <!-- Display the report message -->
+        <div *ngIf="reportMessage" class="report-message">
+            {{ reportMessage }}
+        </div>
+
         <canvas #reportChart></canvas>
     </div>
 </div>

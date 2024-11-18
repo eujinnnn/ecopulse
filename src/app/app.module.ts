@@ -6,6 +6,8 @@ import { AboutComponent } from './components/about/about.component';
 import { AreasComponent } from './components/areas/areas.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,18 +22,20 @@ import { GenerateComponent } from './generatereport/generate.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { notificationComponent } from './userprofile/notification.component';
 import { editprofileComponent } from './userprofile/editprofile.component';
+import { AuthService } from './service/auth.service';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'sign', component: SigninComponent},
-  { path: 'admin', component: AdminComponent },
-  { path: 'user', component: UserComponent },
-  { path: 'user/editprofile', component: editprofileComponent },
-  { path: 'user/notification', component: notificationComponent },
-  { path: 'schedule', component: ScheduleComponent },
-  { path: 'pickup', component: PickComponent },
-  { path: 'generate', component: GenerateComponent },
-  { path: 'report', component: ReportComponent }
+  { path: 'sign', component: SigninComponent },
+  { path: 'admin/:community', component: AdminComponent },
+  { path: 'user/:id', component: UserComponent },
+  { path: 'user/editprofile/:id', component: editprofileComponent },
+  { path: 'user/notification/:id', component: notificationComponent },
+  { path: 'schedule/:id', component: ScheduleComponent },
+  { path: 'pickup/:id', component: PickComponent },
+  { path: 'generate/:id', component: GenerateComponent },
+  { path: 'report/:id', component: ReportComponent },
+  { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
 @NgModule({
@@ -56,7 +60,8 @@ const routes: Routes = [
     BrowserModule,
     RouterModule.forRoot(routes),
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   exports: [
     notificationComponent,
@@ -71,7 +76,9 @@ const routes: Routes = [
     ReportComponent
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    AuthService,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })
