@@ -101,12 +101,19 @@ function signup($data) {
     $password = generateRandomPassword();
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
+    // Insert user into the database
     $insertQuery = "INSERT INTO users (email, username, password, role, community) 
                     VALUES ('$email', '$username', '$hashedPassword', 'Member', 'default')";
 
     if (mysqli_query($conn, $insertQuery)) {
         $userId = mysqli_insert_id($conn);
         
+        // Check if the user ID is 1 to assign Super Admin role
+        if ($userId == 1) {
+            $updateRoleQuery = "UPDATE users SET role = 'Super Admin' WHERE id = $userId";
+            mysqli_query($conn, $updateRoleQuery);
+        }
+
         // For testing, return password directly in response
         echo json_encode([
             'success' => true,
@@ -114,7 +121,8 @@ function signup($data) {
             'debug_info' => [
                 'temporary_password' => $password,
                 'email' => $email,
-                'userId' => $userId
+                'userId' => $userId,
+                'role' => $userId == 1 ? 'Super Admin' : 'Member'
             ]
         ]);
         
