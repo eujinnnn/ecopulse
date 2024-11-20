@@ -1,23 +1,32 @@
 <div class="update">
-    <div class="container">
-        <h1>Profile Update</h1>
-        <h1>Profile Update</h1>
-        <h3>Update your profile to stay connected!</h3>
-    </div>
+  <div class="container">
+      <h1>Profile Update</h1>
+      <h1>Profile Update</h1>
+      <h3>Update your profile to stay connected!</h3>
+  </div>
 
-    <form class="update-form" (ngSubmit)="updateProfile()">
-        <input type="text" placeholder="Name" [(ngModel)]="name" name="name" required>
-        <input type="email" placeholder="Email" [(ngModel)]="email" name="email" required>
-        <input type="text" placeholder="Contact Number" [(ngModel)]="contactNumber" name="contactNumber" required>
-        <input type="text" placeholder="Address" [(ngModel)]="address" name="address" required>
-    
-        <select [(ngModel)]="community" (change)="onCommunityChange($event)" name="community" required>
-            <option value="" disabled>Select a community</option>
-            <option *ngFor="let community of communities" [value]="community">
-              {{ community }}
-            </option>
-          </select>          
-        
-        <button type="submit">Update Profile</button>
-    </form>    
+  <form class="update-form" (ngSubmit)="updateProfile()">
+      <input type="text" placeholder="Name" [(ngModel)]="name" name="name" required>
+      <input type="email" placeholder="Email" [(ngModel)]="email" name="email" required>
+      <input type="text" placeholder="Contact Number" [(ngModel)]="contactNumber" name="contactNumber" required>
+      <input type="text" placeholder="Address" [(ngModel)]="address" name="address" required>
+  
+      <!-- Display community name for Admin or Super Admin -->
+      <div *ngIf="getCurrentUser()?.role === 'Admin' || getCurrentUser()?.role === 'Super Admin'">
+          <label>Community</label>
+          <p>{{ community }}</p>
+      </div>
+
+      <!-- Dropdown for non-admin users -->
+      <div *ngIf="getCurrentUser()?.role !== 'Admin' && getCurrentUser()?.role !== 'Super Admin'">
+          <select [(ngModel)]="community" (change)="onCommunityChange($event)" name="community" required>
+              <option value="" disabled>Select a community</option>
+              <option *ngFor="let community of communities" [value]="community">
+                  {{ community }}
+              </option>
+          </select>
+      </div>
+      
+      <button type="submit">Update Profile</button>
+  </form>    
 </div>
