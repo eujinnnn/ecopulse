@@ -27,7 +27,7 @@
                     <!-- Show Generate Report if logged in -->
                     <li *ngIf="getCurrentUser()"><a [routerLink]="['/generate', getCurrentUser()?.id]">Generate Report</a></li>
                     <!-- Show Admin Dashboard if user is an admin -->
-                    <li *ngIf="getCurrentUser()?.role === 'default' || getCurrentUser()?.role === 'admin'">
+                    <li *ngIf="getCurrentUser()?.role === 'Super Admin' || getCurrentUser()?.role === 'Admin'">
                         <a [routerLink]="['/admin', getCurrentUser()?.community]">Admin Dashboard</a>
                     </li>                      
                     <!-- Show Log In if not logged in -->
