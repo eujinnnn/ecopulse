@@ -12,7 +12,7 @@ error_reporting(E_ALL);
 $data = json_decode(file_get_contents("php://input"));
 
 // Log incoming data for debugging
-file_put_contents('php://stderr', print_r($data, true));  // Log to PHP error log
+file_put_contents('php://stderr', print_r($data, true)); // Log to PHP error log
 
 // Validate the input
 if (!isset($data->name) || !isset($data->pickupSchedule) || empty($data->pickupSchedule)) {
@@ -44,13 +44,13 @@ if ($conn->query($sql) !== TRUE) {
     exit();
 }
 
-$community_id = $conn->insert_id;  // Get the last inserted community ID
+$community_id = $conn->insert_id; // Get the last inserted community ID
 
 // Insert the pickup schedule into the 'pickup_schedules' table
 foreach ($pickup_schedule as $schedule) {
     if (isset($schedule->days) && isset($schedule->times)) {
-        $days = implode(",", $schedule->days);  // Convert array of days to a comma-separated string
-        $times = implode(",", $schedule->times);  // Convert array of times to a comma-separated string
+        $days = implode(",", $schedule->days); // Convert array of days to a comma-separated string
+        $times = implode(",", $schedule->times); // Convert array of times to a comma-separated string
 
         $sql_schedule = "INSERT INTO pickup_schedules (community_id, pickup_day, pickup_time)
                          VALUES ('$community_id', '$days', '$times')";
@@ -62,8 +62,18 @@ foreach ($pickup_schedule as $schedule) {
     }
 }
 
+// Create an admin user for the newly created community
+$admin_password = password_hash($community_name, PASSWORD_DEFAULT); // Securely hash the password
+$sql_user = "INSERT INTO users (username, email, password, role, community) 
+             VALUES ('$community_name', '$community_name', '$admin_password', 'Admin', '$community_name')";
+
+if (!$conn->query($sql_user)) {
+    echo json_encode(array("status" => "error", "message" => "Error creating admin user: " . $conn->error));
+    exit();
+}
+
 // Return success response
-echo json_encode(array("status" => "success", "message" => "Community added successfully."));
+echo json_encode(array("status" => "success", "message" => "Community and admin user added successfully."));
 
 // Close the connection
 $conn->close();
